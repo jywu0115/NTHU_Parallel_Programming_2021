@@ -1,0 +1,255 @@
+[pp21s24@apollo31 hw2]$ srun -n1 -c1 ./hw2b out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+Total time = 663.084249
+CPU time = 659.49
+Communication time = 0.000000
+IO time = 3.516146
+
+
+
+[pp21s24@apollo31 hw2]$ srun -n1 -c4 ./hw2b out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320 
+
+Total time = 663.003664
+CPU time = 659.39
+Communication time = 0.000000
+IO time = 3.610403
+
+
+[pp21s24@apollo31 hw2]$ srun -n4 -c1 ./hw2b out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+Process of rank 0 do 0 rows.
+Process of rank 1 do 1439 rows.
+Process of rank 2 do 1441 rows.
+Process of rank 3 do 1440 rows.
+Master time = 0
+Slave time = 220.001429
+Slave time = 220.001601
+Slave time = 220.002026
+
+Total time = 223.560551
+CPU time = 219.66
+IO time = 3.512472
+Communication time = 0.3987
+
+
+[pp21s24@apollo31 hw2]$ srun -n8 -c1 ./hw2b out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+
+Process of rank 0 do 0 rows.
+Process of rank 1 do 617 rows.
+Process of rank 2 do 618 rows.
+Process of rank 3 do 617 rows.
+Process of rank 4 do 617 rows.
+Process of rank 5 do 617 rows.
+Process of rank 6 do 617 rows.
+Process of rank 7 do 617 rows.
+Slave time = 94.241779
+Slave time = 94.264380
+Slave time = 94.241753
+Slave time = 94.240949
+Slave time = 94.241755
+Slave time = 94.243988
+Slave time = 94.244468
+
+Total time = 97.876731
+CPU time = 92.886
+IO time = 3.508739
+Communication time = 1.49
+
+
+
+[pp21s24@apollo31 hw2]$ srun -n12 -c1 ./hw2b out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+Process of rank 0 do 0 rows.
+Process of rank 1 do 393 rows.
+Process of rank 2 do 393 rows.
+Process of rank 3 do 393 rows.
+Process of rank 4 do 393 rows.
+Process of rank 5 do 393 rows.
+Process of rank 6 do 393 rows.
+Process of rank 7 do 393 rows.
+Process of rank 8 do 392 rows.
+Process of rank 9 do 393 rows.
+Process of rank 10 do 392 rows.
+Process of rank 11 do 392 rows.
+Master time = 0.000000
+Slave time = 60.007745
+Slave time = 60.007936
+Slave time = 60.007727
+Slave time = 60.007634
+Slave time = 60.007963
+Slave time = 60.007809
+Slave time = 60.008138
+Slave time = 60.007740
+Slave time = 60.007646
+Slave time = 60.007749
+Slave time = 60.007654
+
+Total time = 63.527604
+CPU time = 57.23
+IO time = 3.507959
+Communication time = 2.79
+ 
+
+[pp21s24@apollo31 hw2]$ srun -n24 -c1 ./hw2b out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+Process of rank 0 do 0 rows.
+Process of rank 1 do 188 rows.
+Process of rank 2 do 188 rows.
+Process of rank 3 do 188 rows.
+Process of rank 4 do 188 rows.
+Process of rank 5 do 188 rows.
+Process of rank 6 do 188 rows.
+Process of rank 7 do 188 rows.
+Process of rank 8 do 188 rows.
+Process of rank 9 do 188 rows.
+Process of rank 10 do 188 rows.
+Process of rank 11 do 188 rows.
+Process of rank 12 do 188 rows.
+Process of rank 13 do 188 rows.
+Process of rank 14 do 188 rows.
+Process of rank 15 do 188 rows.
+Process of rank 16 do 188 rows.
+Process of rank 17 do 188 rows.
+Process of rank 18 do 188 rows.
+Process of rank 19 do 188 rows.
+Process of rank 20 do 187 rows.
+Process of rank 21 do 187 rows.
+Process of rank 22 do 187 rows.
+Process of rank 23 do 187 rows.
+Slave time = 28.842455
+Slave time = 28.843663
+Slave time = 28.804721
+Slave time = 28.841436
+Slave time = 28.842179
+Slave time = 28.843635
+Slave time = 28.764877
+Slave time = 28.842542
+Slave time = 28.841837
+Slave time = 28.843651
+Slave time = 28.834387
+Slave time = 28.842557
+Slave time = 28.841800
+Slave time = 28.844218
+Slave time = 28.802481
+Slave time = 28.842483
+Slave time = 28.841805
+Slave time = 28.843843
+Slave time = 28.797429
+Slave time = 28.842534
+Slave time = 28.841780
+Slave time = 28.843700
+Slave time = 28.786798
+
+Total time = 32.352359
+CPU time = 21.65
+IO time = 3.507971
+Communication time = 7.19
+
+
+[pp21s24@apollo31 hw2]$ srun -n4 -c4 ./hw2b out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+Process of rank 0 do 437 rows.
+Process of rank 1 do 1745 rows.
+Process of rank 2 do 1069 rows.
+Process of rank 3 do 1068 rows.
+
+Master time = 50.888262
+Slave time = 50.902025
+Slave time = 50.900923
+Slave time = 50.900750
+
+Total time = 70.377939
+CPU time = 66.2146
+IO time = 3.543362
+Communication time = 0.62 
+
+
+
+[pp21s24@apollo31 hw2]$ srun -n8 -c4 ./hw2b out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+Process of rank 0 do 149 rows.
+Process of rank 1 do 596 rows.
+Process of rank 2 do 596 rows.
+Process of rank 3 do 596 rows.
+Process of rank 4 do 596 rows.
+Process of rank 5 do 596 rows.
+Process of rank 6 do 595 rows.
+Process of rank 7 do 595 rows.
+
+Master time = 23.863059
+Slave time = 23.835771
+Slave time = 23.835615
+Slave time = 23.835815
+Slave time = 23.836203
+Slave time = 23.835894
+Slave time = 23.835972
+Slave time = 23.835118
+
+Total time = 26.502740
+CPU time = 20.98
+IO time = 3.540344
+Communication time = 1.98
+
+
+
+[pp21s24@apollo31 hw2]$ srun -n12 -c4 ./hw2b out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+Process of rank 0 do 97 rows.
+Process of rank 1 do 385 rows.
+Process of rank 2 do 383 rows.
+Process of rank 3 do 384 rows.
+Process of rank 4 do 384 rows.
+Process of rank 5 do 384 rows.
+Process of rank 6 do 385 rows.
+Process of rank 7 do 384 rows.
+Process of rank 8 do 384 rows.
+Process of rank 9 do 384 rows.
+Process of rank 10 do 384 rows.
+Process of rank 11 do 382 rows.
+
+Master time = 16.668085
+Slave time = 16.629252
+Slave time = 16.630790
+Slave time = 16.629498
+Slave time = 16.629507
+Slave time = 16.629447
+Slave time = 16.629162
+Slave time = 16.629377
+Slave time = 16.630764
+Slave time = 16.629327
+Slave time = 16.629332
+Slave time = 16.630817
+
+Total time = 18.428716
+CPU time = 11.42
+IO time = 3.572026
+Communication time = 3.44
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

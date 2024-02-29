@@ -1,0 +1,68 @@
+hw3-3 weak scalability
+
+
+[pp21s24@hades01 hw3-3]$ srun -N1 -n1 -c2 --gres=gpu:2 ./hw3-3 /home/pp21/share/hw3-3/cases/c04.1 ~/hw3-3/testcases/c04.1
+number of (vertex, edge) = (5000, 10723117).
+Total Input Time: 0.683502s
+Total Output Time: 0.0744392s
+Total Compute Time: 3.16209s
+Total Time: 4.10272s
+[pp21s24@hades01 hw3-3]$ srun -N1 -n1 -c1 --gres=gpu:2 ./hw3-3 /home/pp21/share/hw3-3/cases/c04.1 ~/hw3-3/testcases/c04.1
+number of (vertex, edge) = (5000, 10723117).
+Total Input Time: 0.452471s
+Total Output Time: 0.0849634s
+Total Compute Time: 3.08302s
+Total Time: 4.49636s
+
+[pp21s24@hades01 hw3-3]$ srun -N1 -n1 -c2 --gres=gpu:1 ./hw3-3 /home/pp21/share/hw3-3/cases/c04.1 ~/hw3-3/testcases/c04.1
+
+
+Total Input Time: 0.478355s
+Total Output Time: 0.0495923s
+Total Compute Time: 0.132522s
+Total Time: 1.53662s
+
+[pp21s24@hades01 hw3-3]$ srun -N1 -n1 -c1 --gres=gpu:1 ./hw3-3 /home/pp21/share/hw3-3/cases/c04.1 ~/hw3-3/testcases/c04.1
+
+Total Input Time: 0.387653s
+Total Output Time: 0.0491568s
+Total Compute Time: 0.124463s
+Total Time: 0.677908s
+
+
+
+
+
+
+[pp21s24@hades01 hw3-3]$ srun -N1 -n1 -c2 --gres=gpu:2 ./hw3-3 /home/pp21/share/hw3-3/cases/c01.1 ~/hw3-3/testcases/c01.1
+number of (vertex, edge) = (5, 10).
+Total Input Time: 0.183395s
+Total Output Time: 6.1827e-05s
+Total Compute Time: 0.0230233s
+Total Time: 0.211228s
+[pp21s24@hades01 hw3-3]$ srun -N1 -n1 -c2 --gres=gpu:2 ./hw3-3 /home/pp21/share/hw3-3/cases/c02.1 ~/hw3-3/testcases/c02.1
+number of (vertex, edge) = (160, 9742).
+Total Input Time: 0.179659s
+Total Output Time: 0.000151562s
+Total Compute Time: 0.124461s
+Total Time: 0.306263s
+[pp21s24@hades01 hw3-3]$ srun -N1 -n1 -c2 --gres=gpu:2 ./hw3-3 /home/pp21/share/hw3-3/cases/c03.1 ~/hw3-3/testcases/c03.1
+number of (vertex, edge) = (999, 418232).
+Total Input Time: 0.168837s
+Total Output Time: 0.0142921s
+Total Compute Time: 0.631744s
+Total Time: 0.825604s
+[pp21s24@hades01 hw3-3]$ srun -N1 -n1 -c2 --gres=gpu:2 ./hw3-3 /home/pp21/share/hw3-3/cases/c04.1 ~/hw3-3/testcases/c04.1
+number of (vertex, edge) = (5000, 10723117).
+Total Input Time: 0.569435s
+Total Output Time: 0.075032s
+Total Compute Time: 3.1712s
+Total Time: 3.99828s
+[pp21s24@hades01 hw3-3]$ srun -N1 -n1 -c2 --gres=gpu:2 ./hw3-3 /home/pp21/share/hw3-3/cases/c05.1 ~/hw3-3/testcases/c05.1
+number of (vertex, edge) = (11000, 505586).
+Total Input Time: 0.42434s
+Total Output Time: 0.334664s
+Total Compute Time: 7.01747s
+Total Time: 8.51724s
+
+

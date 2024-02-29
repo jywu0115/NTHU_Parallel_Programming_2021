@@ -1,0 +1,45 @@
+[pp21s24@apollo31 hw2]$ srun -n1 -c1 ./hw2a out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+thread 0 do 16588800 pixels, compute time = 668.283081
+
+Total time = 671.828430
+CPU time = 668.34
+IO time = 3.538878
+
+[pp21s24@apollo31 hw2]$ srun -n1 -c2 ./hw2a out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+thread 1 do 8295350 pixels, compute time = 334.919159
+thread 0 do 8293450 pixels, compute time = 334.919159
+
+Total time = 338.478455
+CPU time = 335.01
+IO time = 3.551679
+
+[pp21s24@apollo31 hw2]$ srun -n1 -c4 ./hw2a out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+thread 1 do 4148391 pixels, compute time = 167.308670
+thread 0 do 4148219 pixels, compute time = 167.308624
+thread 2 do 4146087 pixels, compute time = 167.308640
+thread 3 do 4146103 pixels, compute time = 167.308655
+
+Total time = 170.894196
+CPU time = 167.32 
+IO time = 3.578262
+
+
+[pp21s24@apollo31 hw2]$ srun -n1 -c4 ./hw2a out.png 10000 -0.5506164691618783 -0.5506164628264113 0.6273445437118131 0.6273445403522527 7680 4320
+
+thread 1 do 2082090 pixels, compute time = 167.343399
+thread 0 do 2083394 pixels, compute time = 167.343552
+thread 6 do 2061613 pixels, compute time = 167.323883
+thread 3 do 2078312 pixels, compute time = 167.313904
+thread 7 do 2068188 pixels, compute time = 167.313797
+thread 4 do 2068311 pixels, compute time = 167.333969
+thread 5 do 2072442 pixels, compute time = 167.343445
+thread 2 do 2074450 pixels, compute time = 167.343613
+
+Total time = 170.899399
+CPU time = 167.33
+IO time = 3.543698
+
+
