@@ -10,16 +10,13 @@
 
 const int INF = ((1 << 30) - 1);
 
-inline int ceil(int a, int b)
-{
+inline int ceil(int a, int b) {
 	return (a + b - 1) / b;
 }
 
 
-void print_array(int *D, int n, int n_64)
-{
-	for (int i = 0; i < n; ++i)
-	{
+void print_array(int *D, int n, int n_64) {
+	for (int i = 0; i < n; ++i) {
 		for(int j = 0; j < n; ++j){
 			printf("%d\n ", D[i * n_64 + j]);
 		}
@@ -46,8 +43,7 @@ __global__ void BFW_Phase_1(int *D, int num_of_vertices_64, int r){
 	}
 	
 	#pragma unroll 64
-	for (int k = 0; k < B; ++k)
-	{
+	for (int k = 0; k < B; ++k) {
 		__syncthreads();
 		#pragma unroll 2
 		for(int offset_y = 0; offset_y < B; offset_y += 32){
@@ -96,8 +92,7 @@ __global__ void BFW_Phase_2_Column(int *D, int num_of_vertices_64, int r, int bl
 	}
 
 	#pragma unroll 64
-	for (int k = 0; k < B; ++k)
-	{
+	for (int k = 0; k < B; ++k) {
 		__syncthreads();
 		#pragma unroll 2
 		for(int offset_y = 0; offset_y < B; offset_y += 32){
@@ -147,8 +142,7 @@ __global__ void BFW_Phase_2_Row(int *D, int num_of_vertices_64, int r, int block
 	}
 
 	#pragma unroll 64
-	for (int k = 0; k < B; ++k)
-	{
+	for (int k = 0; k < B; ++k) {
 		__syncthreads();
 		#pragma unroll 2
 		for(int offset_y = 0; offset_y < B; offset_y += 32){
@@ -204,8 +198,7 @@ __global__ void BFW_Phase_3(int *D, int num_of_vertices_64, int r, int blockId_s
 	__syncthreads();
 
 	#pragma unroll 64
-	for (int k = 0; k < B; ++k)
-	{
+	for (int k = 0; k < B; ++k) {
 		#pragma unroll 2
 		for(int offset_y = 0; offset_y < B; offset_y += 32){	
 			#pragma unroll 2
@@ -229,7 +222,6 @@ __global__ void BFW_Phase_3(int *D, int num_of_vertices_64, int r, int blockId_s
 			D[index_D] = target_block[threadId_j][threadId_i];
 		}
 	}
-	
 }
 
 void BLOCK_FLOYD_WARSHALL(int *dev_D, int num_of_vertices_64)
@@ -239,8 +231,7 @@ void BLOCK_FLOYD_WARSHALL(int *dev_D, int num_of_vertices_64)
 	dim3 num_threads(BLOCK_SIZE, BLOCK_SIZE);
 	dim3 num_blocks;
 	/* Calculation */
-	for (int r = 0; r < Round; ++r)
-	{
+	for (int r = 0; r < Round; ++r){
 		int rem = Round - r - 1;
 
 		/* Phase 1 */
@@ -305,8 +296,7 @@ int main(int argc, char **argv)
 		host_D[i * num_of_vertices_64 + i] = 0;
 	}
 	
-	for (int i = 0; i < num_of_edges; ++i)
-	{
+	for (int i = 0; i < num_of_edges; ++i) {
 		fread(src_dst_distance_buffer, sizeof(int), 3, fin);
 		host_D[src_dst_distance_buffer[0] * num_of_vertices_64 + src_dst_distance_buffer[1]] = src_dst_distance_buffer[2];
 	}
@@ -327,10 +317,10 @@ int main(int argc, char **argv)
 	fclose(fout);
 	cudaFreeHost(host_D);
 	cudaError_t error = cudaGetLastError();
-    	if(error != cudaSuccess){
-       		printf("CUDA error: %s\n", cudaGetErrorString(error));
-        	exit(-1);
-    	}
+    if(error != cudaSuccess){
+       	printf("CUDA error: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
 
 	cudaDeviceReset();
 	return 0;

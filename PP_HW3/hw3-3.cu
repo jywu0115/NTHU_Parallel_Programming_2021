@@ -26,8 +26,7 @@ void CudaSafeCall(cudaError err) {
     }
 }
 
-inline int ceil(int a, int b)
-{
+inline int ceil(int a, int b){
 	return (a + b - 1) / b;
 }
 
@@ -49,8 +48,7 @@ __global__ void BFW_Phase_1(int *D, int num_of_vertices_64, int r){
 	}
 	
 	#pragma unroll 64
-	for (int k = 0; k < B; ++k)
-	{
+	for (int k = 0; k < B; ++k) {
 		__syncthreads();
 		#pragma unroll 2
 		for(int offset_y = 0; offset_y < B; offset_y += 32){
@@ -99,8 +97,7 @@ __global__ void BFW_Phase_2_Column(int *D, int num_of_vertices_64, int r, int bl
 	}
 
 	#pragma unroll 64
-	for (int k = 0; k < B; ++k)
-	{
+	for (int k = 0; k < B; ++k) {
 		__syncthreads();
 		#pragma unroll 2
 		for(int offset_y = 0; offset_y < B; offset_y += 32){
@@ -150,8 +147,7 @@ __global__ void BFW_Phase_2_Row(int *D, int num_of_vertices_64, int r, int block
 	}
 
 	#pragma unroll 64
-	for (int k = 0; k < B; ++k)
-	{
+	for (int k = 0; k < B; ++k) {
 		__syncthreads();
 		#pragma unroll 2
 		for(int offset_y = 0; offset_y < B; offset_y += 32){
@@ -207,8 +203,7 @@ __global__ void BFW_Phase_3(int *D, int num_of_vertices_64, int r, int blockId_s
 	__syncthreads();
 
 	#pragma unroll 64
-	for (int k = 0; k < B; ++k)
-	{
+	for (int k = 0; k < B; ++k) {
 		#pragma unroll 2
 		for(int offset_y = 0; offset_y < B; offset_y += 32){	
 			#pragma unroll 2
@@ -223,7 +218,6 @@ __global__ void BFW_Phase_3(int *D, int num_of_vertices_64, int r, int blockId_s
 
 	#pragma unroll 2
 	for(int offset_y = 0; offset_y < B; offset_y += 32){
-
 		#pragma unroll 2
 		for(int offset_x = 0; offset_x < B; offset_x += 32){
 			int threadId_j = threadIdx.y + offset_y;
@@ -236,8 +230,7 @@ __global__ void BFW_Phase_3(int *D, int num_of_vertices_64, int r, int blockId_s
 }
 
 
-void BLOCK_FLOYD_WARSHALL(int *dev_D, int num_of_vertices_64)
-{
+void BLOCK_FLOYD_WARSHALL(int *dev_D, int num_of_vertices_64) {
 
 	int Round = num_of_vertices_64 / 64;
 
@@ -247,8 +240,7 @@ void BLOCK_FLOYD_WARSHALL(int *dev_D, int num_of_vertices_64)
 	CPU_SET(0, &cpuset);
 
 	/* Calculation */
-	for (int r = 0; r < Round; ++r)
-	{
+	for (int r = 0; r < Round; ++r) {
 		int rem = Round - r - 1;
 		/* Phase 1 */
 		cudaSetDevice(0);
@@ -256,8 +248,7 @@ void BLOCK_FLOYD_WARSHALL(int *dev_D, int num_of_vertices_64)
 		num_blocks.y = 1;
 		BFW_Phase_1<<<num_blocks, num_threads>>>(dev_D, num_of_vertices_64, r);
 		/* Phase 2 */
-		#pragma omp parallel num_threads(2) shared(dev_D)
-		{
+		#pragma omp parallel num_threads(2) shared(dev_D) {
 			unsigned int  cpu_thread_id = omp_get_thread_num();
 			
 			if(cpu_thread_id == 1){
@@ -292,8 +283,7 @@ void BLOCK_FLOYD_WARSHALL(int *dev_D, int num_of_vertices_64)
 		}
 		cudaDeviceSynchronize();
 		/* Phase 3 */
-		#pragma omp parallel num_threads(2) shared(dev_D)
-		{
+		#pragma omp parallel num_threads(2) shared(dev_D) {
 			unsigned int  cpu_thread_id = omp_get_thread_num();
 			if(cpu_thread_id == 1){
 				sched_setaffinity(0, sizeof(cpuset), &cpuset);
@@ -355,8 +345,7 @@ int main(int argc, char **argv)
 		D[i * num_of_vertices_64 + i] = 0;
 	}
 	
-	for (int i = 0; i < num_of_edges; ++i)
-	{
+	for (int i = 0; i < num_of_edges; ++i){
 		fread(src_dst_distance_buffer, sizeof(int), 3, fin);
 		D[src_dst_distance_buffer[0] * num_of_vertices_64 + src_dst_distance_buffer[1]] = src_dst_distance_buffer[2];
 	}
@@ -382,10 +371,10 @@ int main(int argc, char **argv)
 	fclose(fout);
 	CudaSafeCall(cudaFree(D));
 	cudaError_t error = cudaGetLastError();
-    	if(error != cudaSuccess){
-       		printf("CUDA error: %s\n", cudaGetErrorString(error));
-        	exit(-1);
-    	}
+    if(error != cudaSuccess){
+       	printf("CUDA error: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
 	cudaDeviceReset();
 	return 0;
 }
