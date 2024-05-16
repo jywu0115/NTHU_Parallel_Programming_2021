@@ -274,7 +274,9 @@ void BLOCK_FLOYD_WARSHALL(int *dev_D, int num_of_vertices_64) {
 					num_blocks.x = 1;
 					num_blocks.y = rem;
 					cudaSetDevice(cpu_thread_id);
+					
 					BFW_Phase_2_Column<<<num_blocks, num_threads>>>(dev_D, num_of_vertices_64, r, r, r + 1);
+					
 					num_blocks.x = rem;
 					num_blocks.y = 1;
 					BFW_Phase_2_Row<<<num_blocks, num_threads>>>(dev_D, num_of_vertices_64, r, r + 1, r);			
@@ -341,9 +343,8 @@ int main(int argc, char **argv)
 	
 	std::fill_n(D, size_D, INF);
 
-	for(int i = 0; i < num_of_vertices_64; ++i){
+	for(int i = 0; i < num_of_vertices_64; ++i)
 		D[i * num_of_vertices_64 + i] = 0;
-	}
 	
 	for (int i = 0; i < num_of_edges; ++i){
 		fread(src_dst_distance_buffer, sizeof(int), 3, fin);
@@ -355,18 +356,17 @@ int main(int argc, char **argv)
 	
 	cudaSetDevice(1);
    	cudaDeviceEnablePeerAccess(0, 0);
-	
-    	cudaSetDevice(0);
-    	cudaDeviceEnablePeerAccess(1, 0);
+    cudaSetDevice(0);
+    cudaDeviceEnablePeerAccess(1, 0);
 
 	BLOCK_FLOYD_WARSHALL(D, num_of_vertices_64);
 
 	CudaSafeCall(cudaMemPrefetchAsync(D, size_D * sizeof(int), 0, NULL));
 	
 	/* CPU I/O */
-	for(int i = 0; i < num_of_vertices; ++i){
+	for(int i = 0; i < num_of_vertices; ++i)
 		fwrite(D + i * num_of_vertices_64, sizeof(int), num_of_vertices, fout);
-	}
+
 	fclose(fin);
 	fclose(fout);
 	CudaSafeCall(cudaFree(D));

@@ -20,8 +20,7 @@ int pixel_count;
 cpu_set_t cpuset;
 pthread_mutex_t mutex;
 
-typedef struct Calculate_args
-{
+typedef struct Calculate_args {
 	int thread_ID;
 	int num_threads;
 	int *image;
@@ -34,8 +33,7 @@ typedef struct Calculate_args
 	int height;
 } Calculate_args;
 
-void *Calculate_Mandelbrot_set(void *calc_args)
-{
+void *Calculate_Mandelbrot_set(void *calc_args) {
 	Calculate_args *args = (Calculate_args *)calc_args;
 	CPU_ZERO(&cpuset);
 	CPU_SET(args->thread_ID, &cpuset);
@@ -52,21 +50,17 @@ void *Calculate_Mandelbrot_set(void *calc_args)
 	four = _mm_set_pd1(4);
 	iters_128 = _mm_set1_epi64x(args->iters - 1);
 
-	while (1)
-	{
+	while (1) {
 		pthread_mutex_lock(&mutex);
 		pixel_index = pixel_count;
 		pixel_count -= 2;
 		pthread_mutex_unlock(&mutex);
 		if(pixel_index < 0)
-		{
 			break;
-		}
 		j = pixel_index / args->width;
 		i = pixel_index % args->width;
 		/* Boundary condition */
-		if(i == args->width - 1)
-		{ 
+		if(i == args->width - 1) { 
 			// pixel (i, j)
 			double y0 = j * t1 + args->lower;
 			double x0 = i * t2 + args->left;
@@ -74,8 +68,7 @@ void *Calculate_Mandelbrot_set(void *calc_args)
 			double x = 0;
 			double y = 0;
 			double length_squared = 0;
-			while (repeats < args->iters && length_squared < 4)
-			{
+			while (repeats < args->iters && length_squared < 4){
 				double temp = x * x - y * y + x0;
 				y = 2 * x * y + y0;
 				x = temp;
@@ -92,8 +85,7 @@ void *Calculate_Mandelbrot_set(void *calc_args)
 			x = 0;
 			y = 0;
 			length_squared = 0;
-			while (repeats < args->iters && length_squared < 4)
-			{
+			while (repeats < args->iters && length_squared < 4) {
 				double temp = x * x - y * y + x0;
 				y = 2 * x * y + y0;
 				x = temp;
@@ -101,9 +93,7 @@ void *Calculate_Mandelbrot_set(void *calc_args)
 				++repeats;
 			}
 			args->image[pixel_index + 1] = repeats;
-		}
-		else
-		{
+		} else{
 			double y0 = j * t1 + args->lower;
 			int row_offset = j * args->width;
 
@@ -121,8 +111,7 @@ void *Calculate_Mandelbrot_set(void *calc_args)
 			repeats_128 = _mm_setzero_si128();
 			flag_128 = _mm_set1_epi64x(1);
 
-			while (flag_128[0] || flag_128[1])
-			{
+			while (flag_128[0] || flag_128[1]){
 				// temp = x * x - y * y + x0;
 				a = _mm_mul_pd(x_128, x_128);	  // x^2
 				b = _mm_mul_pd(y_128, y_128);	  // y^2
@@ -149,13 +138,10 @@ void *Calculate_Mandelbrot_set(void *calc_args)
 				a = _mm_cmpge_pd(length_squared_128, four);
 				gt = _mm_cmpgt_epi64(repeats_128, iters_128);
 				if (a[0] || gt[0])
-				{
 					flag_128[0] = 0;
-				}
+				
 				if (a[1] || gt[1])
-				{
 					flag_128[1] = 0;
-				}
 			}
 			args->image[row_offset + i] = repeats_128[0];
 			args->image[row_offset + i + 1] = repeats_128[1];
@@ -180,24 +166,18 @@ void write_png(const char *filename, int iters, int width, int height, const int
 	png_set_compression_level(png_ptr, 1);
 	size_t row_size = 3 * width * sizeof(png_byte);
 	png_bytep row = (png_bytep)malloc(row_size);
-	for (int y = 0; y < height; ++y)
-	{
+	for (int y = 0; y < height; ++y) {
 		memset(row, 0, row_size);
-		for (int x = 0; x < width; ++x)
-		{
+		for (int x = 0; x < width; ++x) {
 			int p = buffer[(height - 1 - y) * width + x];
 			png_bytep color = row + x * 3;
-			if (p != iters)
-			{
+			if (p != iters){
 				if (p & 16)
 				{
 					color[0] = 240;
 					color[1] = color[2] = p % 16 * 16;
-				}
-				else
-				{
+				} else
 					color[0] = p % 16 * 16;
-				}
 			}
 		}
 		png_write_row(png_ptr, row);
@@ -208,8 +188,7 @@ void write_png(const char *filename, int iters, int width, int height, const int
 	fclose(fp);
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
 	sched_getaffinity(0, sizeof(cpuset), &cpuset);
 	/* argument parsing */
 	assert(argc == 9);
@@ -236,8 +215,7 @@ int main(int argc, char **argv)
 
 	/* mandelbrot set */
 	
-	for (int t = 0; t < num_threads; ++t)
-	{
+	for (int t = 0; t < num_threads; ++t){
 		calc_args[t].thread_ID = t;
 		calc_args[t].num_threads = num_threads;
 		calc_args[t].image = image;
@@ -251,9 +229,8 @@ int main(int argc, char **argv)
 		pthread_create(&threads[t], NULL, Calculate_Mandelbrot_set, (void *)&calc_args[t]);
 	}
 	for (int t = 0; t < num_threads; ++t)
-	{
 		pthread_join(threads[t], NULL);
-	}
+	
 	pthread_mutex_destroy(&mutex);
 	/* draw and cleanup */
 	write_png(filename, iters, width, height, image);

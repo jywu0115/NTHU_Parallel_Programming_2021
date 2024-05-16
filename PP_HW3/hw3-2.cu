@@ -14,17 +14,6 @@ inline int ceil(int a, int b) {
 	return (a + b - 1) / b;
 }
 
-
-void print_array(int *D, int n, int n_64) {
-	for (int i = 0; i < n; ++i) {
-		for(int j = 0; j < n; ++j){
-			printf("%d\n ", D[i * n_64 + j]);
-		}
-	}
-	printf("\n");
-}
-
-
 __global__ void BFW_Phase_1(int *D, int num_of_vertices_64, int r){
 
 	int offset_k = r * B;
@@ -224,10 +213,9 @@ __global__ void BFW_Phase_3(int *D, int num_of_vertices_64, int r, int blockId_s
 	}
 }
 
-void BLOCK_FLOYD_WARSHALL(int *dev_D, int num_of_vertices_64)
-{
+void BLOCK_FLOYD_WARSHALL(int *dev_D, int num_of_vertices_64){
+	
 	int Round = num_of_vertices_64 / 64;
-
 	dim3 num_threads(BLOCK_SIZE, BLOCK_SIZE);
 	dim3 num_blocks;
 	/* Calculation */
@@ -276,7 +264,6 @@ void BLOCK_FLOYD_WARSHALL(int *dev_D, int num_of_vertices_64)
 int main(int argc, char **argv)
 {
 	assert(argc == 3);
-
 	int num_of_vertices, num_of_edges;
 	
 	/* CPU I/O */
@@ -289,12 +276,11 @@ int main(int argc, char **argv)
 	int *host_D;
 	int src_dst_distance_buffer[3];
 	cudaMallocHost(&host_D, num_of_vertices_64 * num_of_vertices_64 * sizeof(int));
-	
 	std::fill_n(host_D, num_of_vertices_64 * num_of_vertices_64, INF);
 
-	for(int i = 0; i < num_of_vertices_64; ++i){
+	for(int i = 0; i < num_of_vertices_64; ++i)
 		host_D[i * num_of_vertices_64 + i] = 0;
-	}
+	
 	
 	for (int i = 0; i < num_of_edges; ++i) {
 		fread(src_dst_distance_buffer, sizeof(int), 3, fin);
@@ -310,9 +296,9 @@ int main(int argc, char **argv)
 	cudaMemcpy(host_D, dev_D, num_of_vertices_64 * num_of_vertices_64 * sizeof(int), cudaMemcpyDeviceToHost);
 	cudaFree(dev_D);
 	/* CPU I/O */
-	for(int i = 0; i < num_of_vertices; ++i){
+	for(int i = 0; i < num_of_vertices; ++i)
 		fwrite(host_D + i * num_of_vertices_64, sizeof(int), num_of_vertices, fout);
-	}
+	
 	fclose(fin);
 	fclose(fout);
 	cudaFreeHost(host_D);
